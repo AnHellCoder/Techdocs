@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<head>
+    <title>Информация о персонажах Persona 4</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Учитываем границы и отступы в общей ширине элемента */
+        }
+        
+        /* Стили для всего тела документа */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Устанавливаем шрифт */
+            color: #333; /* Цвет текста */
+            line-height: 1.6; /* Межстрочный интервал */
+            overflow-x: hidden; /* Скрываем горизонтальную прокрутку */
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 20%;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #4a6572;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .nav-menu a {
+            display: block;
+            color: #a7b300;
+            padding: 12px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            background-color: #3498db;
+            padding-left: 25px;
+        }
+        
+        .nav-menu a.active {
+            background-color: #3498db;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .main-content {
+            width: 80%;
+            margin-left: 20%;
+            padding: 30px;
+            /* background-color: #f9f9f9; */
+            background-color: gold;
+        }
+        
+        /*Фон секции персонажа*/
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        
+        /*Дизайн имени в соответствии с персонажами*/
+        .content-section h2[character-name="yu"] {
+            color: grey;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid grey;
+        }
+
+        .content-section h2[character-name="yosuke"] {
+            color: orange;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid orange;
+        }
+
+        .content-section h2[character-name="chie"] {
+            color: green;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid green;
+        }
+
+        .content-section h2[character-name="yukiko"] {
+            color: red;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid red;
+        }
+
+        .content-section h2[character-name="kanji"] {
+            color: blue;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid blue;
+        }
+
+        .content-section h2[character-name="rise"] {
+            color: violet;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid violet;
+        }
+
+        .content-section h2[character-name="teddie"] {
+            color: gold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid gold;
+        }
+
+        .content-section h2[character-name="naoto"] {
+            color: lightblue;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid lightblue;
+        }
+
+        /* Стили для таблицы */
+        .character-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .character-table caption {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            padding: 15px;
+            caption-side: top;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .character-table th, 
+        .character-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .character-table th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .character-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .character-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .character-table tr:hover {
+            background-color: #e8f4f8;
+            transition: background-color 0.3s;
+        }
+        
+        /* Цвета для строк таблицы в соответствии с персонажами */
+        .character-table tr[data-character="yu"] {
+            background-color: rgba(128, 128, 128, 0.1);
+        }
+        
+        .character-table tr[data-character="yosuke"] {
+            background-color: rgba(255, 165, 0, 0.1);
+        }
+        
+        .character-table tr[data-character="chie"] {
+            background-color: rgba(0, 128, 0, 0.1);
+        }
+        
+        .character-table tr[data-character="yukiko"] {
+            background-color: rgba(255, 0, 0, 0.1);
+        }
+        
+        .character-table tr[data-character="kanji"] {
+            background-color: rgba(0, 0, 255, 0.1);
+        }
+        
+        .character-table tr[data-character="rise"] {
+            background-color: rgba(238, 130, 238, 0.1);
+        }
+        
+        .character-table tr[data-character="teddie"] {
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+        
+        .character-table tr[data-character="naoto"] {
+            background-color: rgba(173, 216, 230, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Навигация по странице</h2>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="#Narukami" style="color: grey;">Ю Наруками</a></li>
+                <li><a href="#Yosuke" style="color: orange;">Йоске Ханамура</a></li>
+                <li><a href="#Chie" style="color: green;">Чие Сатонака</a></li>
+                <li><a href="#Yukiko" style="color: red;">Юкико Амаги</a></li>
+                <li><a href="#Kanji" style="color: blue;">Кандзи Тацуми</a></li>
+                <li><a href="#Rise" style="color: violet;">Рисэ Кудзикава</a></li>
+                <li><a href="#Teddie" style="color: gold;">Тедди</a></li>
+                <li><a href="#Naoto" style="color: lightblue;">Наото Широганэ</a></li>
+                <li><a href="#Character-Table" style="color: black;">Таблица с персонажами</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <h1 style="color: gold;">Персонажи Persona 4:</h1>
+
+            <section id="Narukami" class="content-section">
+                <h2 character-name="yu">Ю Наруками:</h2>
+                <img src="narukami.png">
+                <p>
+                    Изначально безымянный протагонист Persona 4,
+                    получивший своё имя после релиза Persona 4 Arena.
+                    Первый играбельный персонаж.
+                    Старшеклассник, переехавший на год в сельский городок
+                    Инаба и поступивший в местную старшую школу Ясогами
+                </p>
+
+                <ul>
+                    <li>Персона: Идзанаги</li>
+                    <li>Аркана: Дурак</li>
+                    <li>Стихия способностей: Электричество</li>
+                </ul>
+            </section>
+
+
+            <section id="Yosuke" class="content-section">
+                <h2 character-name="yosuke">Йоске Ханамура:</h2>
+                <img src="yosuke.png">
+                <p>
+                    Второй играбельный персонаж.
+                    Одноклассник протагониста в старшей школе Ясогами
+                    и сын заведующего сети гипермаркетов "Junes" в
+                    Инабе, что также переехал из большого города.
+                </p>
+
+                <ul>
+                    <li>Персона: Дзирайя/Сусано-о/Такехайя Сусано-о</li>
+                    <li>Аркана: Маг</li>
+                    <li>Стихия способностей: Ветер</li>
+                </ul>
+            </section>
+
+
+
+            <section id="Chie" class="content-section">
+                <h2 character-name="chie">Чие Сатонака:</h2>
+                <img src="chie.png">
+                <p>
+                    Третий играбельный персонаж.
+                    Одноклассница протагониста в старшей школе Ясогами,
+                    энергичная девчонка, обожающая фильмы про кунг-фу и
+                    отрабатывать приёмы из них.
+                </p>
+
+                <ul>
+                    <li>Персона: Томоэ/Судзука Гонгэн/Хараэдо-но Оками</li>
+                    <li>Аркана: Колесница</li>
+                    <li>Стихия способностей: Лёд</li>
+                </ul>
+            </section>
+
+
+
+            <section id="Yukiko" class="content-section">
+                <h2 character-name="yukiko">Юкико Амаги:</h2>
+                <img src="yukiko.png">
+                <p>
+                    Четвёртый играбельный персонаж.
+                    Одноклассница протагониста в старшей школе Ясогами,
+                    её родители заведуют гостиницей Амаги в Инабе, и она
+                    должна стать следующей заведующей после них. Правда,
+                    она очень хочет покинуть Инабу после окончания школы.
+                </p>
+
+                <ul>
+                    <li>Персона: Конохана Сакуя/Аматерасу/Сумео-Оками</li>
+                    <li>Аркана: Жрица</li>
+                    <li>Стихия способностей: Огонь</li>
+                </ul>
+            </section>
+
+
+
+            <section id="Kanji" class="content-section">
+                <h2 character-name="kanji">Кандзи Тацуми:</h2>
+                <img src="kanji.png">
+                <p>
+                    Пятый играбельный персонаж.
+                    Первогодка, в старшей школе Ясогами,
+                    ещё со средней школы имеет дурную славу
+                    задиры.
+                </p>
+
+                <ul>
+                    <li>Персона: Таке-Микадзучи/Рокутэн Мао/Такедзи Дзайтен</li>
+                    <li>Аркана: Император</li>
+                    <li>Стихия способностей: Электричество</li>
+                </ul>
+            </section>
+
+
+
+            <section id="Rise" class="content-section">
+                <h2 character-name="rise">Рисэ Кудзикава:</h2>
+                <img src="rise.png">
+                <p>
+                    Одна из главных героинь игры. Известный поп-айдол,
+                    решившая вернуться домой в Инабу, чтобы отдохнуть
+                    от славы и закончить школу. Первогодка в старшей школе Ясогами.
+                </p>
+
+                <ul>
+                    <li>Персона: Химико/Кандзеон/Кодзеон</li>
+                    <li>Аркана: Влюблённые</li>
+                    <li>Стихия способностей: Нет (не принимает прямого участия в боях)</li>
+                </ul>
+            </section>
+
+
+
+            <section id="Teddie" class="content-section">
+                <h2 character-name="teddie">Тэдди:</h2>
+                <img src="teddie.png">
+                <p>
+                    Тедди (или Кума в японской версии) шестой играбельный
+                    персонаж и главное лицо игры. Родился в Полуночном Канале,
+                    пуст внутри своего костюма и не помнит ничего до начала
+                    убийств, но постепенно узнаёт об этом мире больше, заводя
+                    знакомства с людьми из внешнего мира.
+                </p>
+
+                <ul>
+                    <li>Персона: Кинтоки-Додзи/Камуи/Камуи-Мошири</li>
+                    <li>Аркана: Звезда</li>
+                    <li>Стихия способностей: Лёд</li>
+                </ul>
+            </section>
+            
+
+
+            <section id="Naoto" class="content-section">
+                <h2 character-name="naoto">Наото Широганэ:</h2>
+                <img src="naoto.png">
+                <p>
+                    Седьмой играбельный персонаж. Родом из семьи
+                    потомственных детективов. Прибывает в Инабу
+                    для расследования убийств и поступает на первый
+                    год в старшую школу Ясогами.
+                </p>
+
+                <ul>
+                    <li>Персона: Сукуна-Хикона/Ямато Такеру/Ямато Сумераги</li>
+                    <li>Аркана: Фортуна</li>
+                    <li>Стихия способностей: Свет/Тьма</li>
+                </ul>
+            </section>
+
+            <section id="Character-Table" class="content-section">
+                <table class="character-table">
+                    <thead>
+                        <caption>Таблица с данными о персонажах</caption>
+
+                        <tr>
+                            <th>Персонаж</th>
+                            <th>Персоны</th>
+                            <th>Аркана</th>
+                            <th>Стихия</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr data-character="yu">
+                            <td>Ю</td>
+                            <td>Идзанаги</td>
+                            <td>Дурак</td>
+                            <td>Электричество</td>
+                        </tr>
+
+                        <tr data-character="yosuke">
+                            <td>Йоске</td>
+                            <td>Дзирайя</td>
+                            <td>Маг</td>
+                            <td>Ветер</td>
+                        </tr>
+
+                        <tr data-character="chie">
+                            <td>Чие</td>
+                            <td>Томоэ</td>
+                            <td>Колесница</td>
+                            <td>Лёд</td>
+                        </tr>
+
+                        <tr data-character="yukiko">
+                            <td>Юкико</td>
+                            <td>Конохана Сакуя</td>
+                            <td>Жрица</td>
+                            <td>Огонь</td>
+                        </tr>
+
+                        <tr data-character="kanji">
+                            <td>Кандзи</td>
+                            <td>Таке-Микадзучи</td>
+                            <td>Император</td>
+                            <td>Электричество</td>
+                        </tr>
+
+                        <tr data-character="rise">
+                            <td>Рисэ</td>
+                            <td>Химико</td>
+                            <td>Влюблённые</td>
+                            <td>Нет (не принимает прямого участия в боях)</td>
+                        </tr>
+
+                        <tr data-character="teddie">
+                            <td>Тедди</td>
+                            <td>Кинтоки-Додзи</td>
+                            <td>Звезда</td>
+                            <td>Лёд</td>
+                        </tr>
+
+                        <tr data-character="naoto">
+                            <td>Наото</td>
+                            <td>Сукуна-Хикона</td>
+                            <td>Фортуна</td>
+                            <td>Свет/Тьма</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Ждем полной загрузки DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Находим все ссылки в меню навигации
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            // Получаем все секции страницы
+            const sections = document.querySelectorAll('.content-section');
+            
+            // Функция для определения текущей секции
+            function activateMenuOnScroll() {
+                let currentSection = '';
+                
+                // Проверяем каждую секцию
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    // Если прокрутка достигла секции
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                // Активируем соответствующую ссылку в меню
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            // Добавляем обработчик события для каждой ссылки
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Убираем активный класс у всех ссылок
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    
+                    // Добавляем активный класс к текущей ссылке
+                    this.classList.add('active');
+                    
+                    // Плавная прокрутка к выбранному разделу
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Следим за прокруткой страницы
+            window.addEventListener('scroll', activateMenuOnScroll);
+            
+            // Активируем при загрузке страницы
+            activateMenuOnScroll();
+        });
+    </script>
+</body>
