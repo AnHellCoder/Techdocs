@@ -1,0 +1,61 @@
+.sidebar{ /*Панель для сайдбара*/
+    background-color: rgb(0, 183, 255); /*Цвет сайдбара*/
+    position: fixed; /*Фиксируем сайдбар на экране*/
+    padding: 20px 0;
+    width: 20%; /*Ширина сайдбара на окне*/
+    height: 100vh; /*Высота сайдбара на окне*/
+}
+
+
+.sidebar-header {
+    padding: 0 20px 20px;
+    border-bottom: 2px solid #c7ecff;
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    color: #c7ecff;
+}
+
+
+.paragraph-selector{
+    padding: 15px 0px;
+    gap: 50px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+/* .paragraph-selector button{
+    font-size: 150%;
+    border: none;
+    background-color: rgb(0, 183, 255);
+}
+
+.paragraph-selector button:hover{
+    background-color: #87CEEB;
+} */
+
+.nav-button {
+    background-color: lightblue;
+    text-decoration: none;
+    color: blue;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #87CEEB;
+}
+
+.nav-button.active {
+    background-color: #4682B4;
+    color: white;
+    font-weight: bold;
+}

@@ -1,0 +1,15 @@
+.main-panel{
+    width: 80%;
+    margin-left: 20%;
+    background-color: rgb(255, 249, 249);
+    font-size: 1.5rem;
+}
+
+/* .content-section {
+    background-color: lightskyblue;
+    color:darkblue;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+} */

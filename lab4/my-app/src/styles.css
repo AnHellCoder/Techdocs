@@ -1,0 +1,7 @@
+.main-panel{
+    color: aqua;
+    text-align: center;
+    background-color: rgb(56, 59, 80);
+    min-height: 100vh;
+    display: flex;
+}
